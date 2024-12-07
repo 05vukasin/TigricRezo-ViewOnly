@@ -97,6 +97,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 1rem; /* Dodatno za mobilne uređaje */
 }
 
 .popup.hidden {
@@ -105,29 +106,14 @@ footer {
 
 .popup-content {
     background: white;
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 10px;
-    width: 90%;
+    width: 100%;
     max-width: 500px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.popup .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-.popup-content {
     position: relative;
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow-y: auto; /* Dodato za skrolovanje na manjim ekranima */
+    max-height: 90%; /* Ograničava visinu na telefonima */
 }
 
 .close {
@@ -143,4 +129,29 @@ footer {
 
 .close:hover {
     color: red;
+}
+
+/* Stilovi za male ekrane */
+@media (max-width: 600px) {
+    .popup-content {
+        padding: 1rem;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .close {
+        font-size: 1.25rem;
+        top: 5px;
+        right: 5px;
+    }
+
+    .reservation-list li {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .calendar-day {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
 }
