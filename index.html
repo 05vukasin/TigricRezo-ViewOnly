@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TigricRezo - Rezervacije</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Raspored Rezervacija</h1>
+    </header>
+    <main>
+        <section class="calendar-section">
+            <div class="calendar-controls">
+                <button id="prevMonth">❮</button>
+                <span id="monthYear"></span>
+                <button id="nextMonth">❯</button>
+            </div>
+            <div class="calendar-grid"></div>
+        </section>
+        <section class="reservation-section">
+            <h2>Rezervacije za <span id="selectedDate"></span></h2>
+            <ul id="reservationList" class="reservation-list">
+                <li>Izaberite datum za pregled rezervacija.</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 TigricRezo</p>
+    </footer>
+        <!-- Popup za detalje rezervacije -->
+        <div id="reservationPopup" class="popup hidden">
+            <div class="popup-content">
+                <button id="closePopup" class="close">&times;</button>
+                <h2>Detalji Rezervacije</h2>
+                <p><strong>Klijent:</strong> <span id="popupClientName"></span></p>
+                <p><strong>Telefon:</strong> <span id="popupClientPhone"></span></p>
+                <p><strong>Email:</strong> <span id="popupClientEmail"></span></p>
+                <p><strong>Vreme:</strong> <span id="popupReservationTime"></span></p>
+                <p><strong>Broj ljudi:</strong> <span id="popupNumberOfPeople"></span></p>
+                <p><strong>Komentar:</strong> <span id="popupComment"></span></p>
+            </div>
+        </div>
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
