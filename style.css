@@ -5,47 +5,64 @@ body {
     padding: 0;
     background-color: #f9f9f9;
     color: #333;
+    line-height: 1.6;
 }
 
 header {
     background-color: #4CAF50;
     color: white;
-    padding: 1rem;
+    padding: 2%;
     text-align: center;
+    font-size: 1.5em;
 }
 
 main {
-    padding: 1rem;
-    max-width: 800px;
+    padding: 2%;
+    max-width: 90%;
     margin: 0 auto;
 }
 
 .calendar-section {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 3%;
 }
 
 .calendar-controls {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2%;
+}
+
+.calendar-controls button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 1%;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.calendar-controls button:hover {
+    background-color: #45a049;
 }
 
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 0.5rem;
+    gap: 1%;
 }
 
 .calendar-day {
     background: white;
     border: 1px solid #ddd;
-    padding: 1rem;
+    padding: 5%;
+    font-size: 1em;
     cursor: pointer;
     border-radius: 5px;
     transition: background 0.3s;
+    text-align: center;
 }
 
 .calendar-day:hover {
@@ -60,6 +77,7 @@ main {
 .reservation-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .reservation-list li {
@@ -67,12 +85,13 @@ main {
     justify-content: space-between;
     align-items: center;
     background: white;
-    margin: 0.5rem 0;
-    padding: 1rem;
+    margin: 1% 0;
+    padding: 2%;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: background 0.3s;
+    font-size: 1em;
 }
 
 .reservation-list li:hover {
@@ -81,9 +100,10 @@ main {
 
 footer {
     text-align: center;
-    padding: 1rem;
+    padding: 2%;
     background-color: #4CAF50;
     color: white;
+    font-size: 0.9em;
 }
 
 /* Popup stilovi */
@@ -97,7 +117,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem; /* Dodatno za mobilne uređaje */
+    padding: 5%;
 }
 
 .popup.hidden {
@@ -106,23 +126,29 @@ footer {
 
 .popup-content {
     background: white;
-    padding: 1.5rem;
+    padding: 5%;
     border-radius: 10px;
-    width: 100%;
-    max-width: 500px;
+    width: 90%;
+    max-width: 400px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
-    overflow-y: auto; /* Dodato za skrolovanje na manjim ekranima */
-    max-height: 90%; /* Ograničava visinu na telefonima */
+    overflow-y: auto;
+    max-height: 90%; /* Maksimalna visina za telefone */
+    font-size: 1em;
+}
+
+.popup-content h2 {
+    font-size: 1.5em;
+    margin-bottom: 2%;
 }
 
 .close {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 2%;
+    right: 2%;
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.5em;
     cursor: pointer;
     color: #333;
 }
@@ -131,27 +157,72 @@ footer {
     color: red;
 }
 
-/* Stilovi za male ekrane */
-@media (max-width: 600px) {
-    .popup-content {
-        padding: 1rem;
-        width: 100%;
-        max-width: 400px;
+/* Stilovi za manje uređaje */
+@media (max-width: 768px) {
+    header {
+        font-size: 1.2em;
+        padding: 4%;
     }
 
-    .close {
-        font-size: 1.25rem;
-        top: 5px;
-        right: 5px;
+    .calendar-controls button {
+        padding: 2%;
+        font-size: 0.9em;
     }
 
-    .reservation-list li {
-        padding: 0.75rem;
-        font-size: 0.9rem;
+    .calendar-grid {
+        gap: 2%;
     }
 
     .calendar-day {
-        padding: 0.5rem;
-        font-size: 0.9rem;
+        padding: 8%;
+        font-size: 0.9em;
+    }
+
+    .reservation-list li {
+        padding: 3%;
+        font-size: 0.9em;
+    }
+
+    .popup-content {
+        padding: 4%;
+        max-width: 95%;
+    }
+
+    .popup-content h2 {
+        font-size: 1.2em;
+    }
+
+    .close {
+        font-size: 1.3em;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        font-size: 1em;
+        padding: 5%;
+    }
+
+    .calendar-controls button {
+        font-size: 0.8em;
+    }
+
+    .calendar-day {
+        padding: 10%;
+        font-size: 0.8em;
+    }
+
+    .reservation-list li {
+        padding: 4%;
+        font-size: 0.8em;
+    }
+
+    .popup-content {
+        padding: 3%;
+        font-size: 0.9em;
+    }
+
+    .close {
+        font-size: 1em;
     }
 }
