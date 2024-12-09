@@ -91,24 +91,24 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(API_URL);
             const data = await response.json();
-
+    
             const reservations = data.reservations.filter(res =>
                 res.status === "Active" &&
                 new Date(res.reservationDate).toISOString().split('T')[0] === date
             );
-
+    
             if (reservations.length === 0) {
                 reservationList.innerHTML = '<li>Nema rezervacija za izabrani datum.</li>';
                 return;
             }
-
-            reservationList.innerHTML = reservations.map(res => `
-                <li data-client='${JSON.stringify(res.client)}' data-time='${res.reservationDate}' data-people='${res.numberOfPeople}' data-comment='${res.comment}'>
+    
+            reservationList.innerHTML = reservations.map(res => ` 
+                <li data-client='${JSON.stringify(res.client)}' data-time='${res.reservationDate}' data-people='${res.numberOfPeople}'>
                     <span>${res.client.name}</span>
                     <span>${new Date(res.reservationDate).toLocaleTimeString('sr-RS', { hour: '2-digit', minute: '2-digit' })}</span>
                 </li>
             `).join('');
-
+    
             document.querySelectorAll('.reservation-list li').forEach(item => {
                 item.addEventListener('click', () => {
                     const client = JSON.parse(item.getAttribute('data-client'));
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     popupClientEmail.textContent = client.email || 'N/A';
                     popupReservationTime.textContent = new Date(item.getAttribute('data-time')).toLocaleString('sr-RS');
                     popupNumberOfPeople.textContent = item.getAttribute('data-people');
-                    popupComment.textContent = item.getAttribute('data-comment') || 'Nema komentara';
+                    popupComment.textContent = client.comment || 'Nema komentara'; // Prikazuje komentar klijenta
                     popup.classList.remove('hidden');
                 });
             });
@@ -126,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
             reservationList.innerHTML = '<li>Došlo je do greške prilikom učitavanja podataka.</li>';
         }
     }
+    
 
     // Zatvaranje popupa
     closePopup.addEventListener('click', () => {
