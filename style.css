@@ -226,3 +226,17 @@ footer {
         font-size: 1em;
     }
 }
+
+.calendar-day.reserved-day {
+    background: #ffc107; /* Žuta boja za dane sa rezervacijama */
+}
+
+.calendar-day.selected-day {
+    background: #4CAF50; /* Zelena boja za selektovani dan */
+    color: white;
+}
+
+.calendar-day.today {
+    border: 2px solid #4CAF50; /* Poseban izgled za današnji dan */
+}
+
