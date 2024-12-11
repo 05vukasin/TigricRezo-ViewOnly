@@ -85,47 +85,48 @@ document.addEventListener('DOMContentLoaded', () => {
     
 
     // Učitavanje rezervacija
-    async function loadReservations(date) {
-        selectedDateElement.textContent = date;
-        reservationList.innerHTML = '<li>Učitavanje rezervacija...</li>';
-        try {
-            const response = await fetch(API_URL);
-            const data = await response.json();
-    
-            const reservations = data.reservations.filter(res =>
-                res.status === "Active" &&
-                new Date(res.reservationDate).toISOString().split('T')[0] === date
-            );
-    
-            if (reservations.length === 0) {
-                reservationList.innerHTML = '<li>Nema rezervacija za izabrani datum.</li>';
-                return;
-            }
-    
-            reservationList.innerHTML = reservations.map(res => ` 
-                <li data-client='${JSON.stringify(res.client)}' data-time='${res.reservationDate}' data-people='${res.numberOfPeople}'>
-                    <span>${res.client.name}</span>
-                    <span>${new Date(res.reservationDate).toLocaleTimeString('sr-RS', { hour: '2-digit', minute: '2-digit' })}</span>
-                </li>
-            `).join('');
-    
-            document.querySelectorAll('.reservation-list li').forEach(item => {
-                item.addEventListener('click', () => {
-                    const client = JSON.parse(item.getAttribute('data-client'));
-                    popupClientName.textContent = client.name;
-                    popupClientPhone.textContent = client.phone;
-                    popupClientEmail.textContent = client.email || 'N/A';
-                    popupReservationTime.textContent = new Date(item.getAttribute('data-time')).toLocaleString('sr-RS');
-                    popupNumberOfPeople.textContent = item.getAttribute('data-people');
-                    popupComment.textContent = client.comment || 'Nema komentara'; // Prikazuje komentar klijenta
-                    popup.classList.remove('hidden');
-                });
-            });
-        } catch (error) {
-            console.error("Greška prilikom učitavanja rezervacija:", error);
-            reservationList.innerHTML = '<li>Došlo je do greške prilikom učitavanja podataka.</li>';
+async function loadReservations(date) {
+    selectedDateElement.textContent = date;
+    reservationList.innerHTML = '<li>Učitavanje rezervacija...</li>';
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+
+        const reservations = data.reservations.filter(res =>
+            res.status === "Active" &&
+            new Date(res.reservationDate).toISOString().split('T')[0] === date
+        );
+
+        if (reservations.length === 0) {
+            reservationList.innerHTML = '<li>Nema rezervacija za izabrani datum.</li>';
+            return;
         }
+
+        reservationList.innerHTML = reservations.map(res => ` 
+            <li data-client='${JSON.stringify(res.client)}' data-time='${res.reservationDate}' data-people='${res.numberOfPeople}' data-comment='${res.comment}'>
+                <span>${res.client.name}</span>
+                <span>${new Date(res.reservationDate).toLocaleTimeString('sr-RS', { hour: '2-digit', minute: '2-digit' })}</span>
+            </li>
+        `).join('');
+
+        document.querySelectorAll('.reservation-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const client = JSON.parse(item.getAttribute('data-client'));
+                popupClientName.textContent = client.name;
+                popupClientPhone.textContent = client.phone;
+                popupClientEmail.textContent = client.email || 'N/A';
+                popupReservationTime.textContent = new Date(item.getAttribute('data-time')).toLocaleString('sr-RS');
+                popupNumberOfPeople.textContent = item.getAttribute('data-people');
+                popupComment.textContent = item.getAttribute('data-comment') || 'Nema komentara'; // Prikazuje komentar rezervacije
+                popup.classList.remove('hidden');
+            });
+        });
+    } catch (error) {
+        console.error("Greška prilikom učitavanja rezervacija:", error);
+        reservationList.innerHTML = '<li>Došlo je do greške prilikom učitavanja podataka.</li>';
     }
+}
+
     
 
     // Zatvaranje popupa
