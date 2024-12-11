@@ -27,62 +27,69 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Generisanje kalendarskih dana
-    async function generateCalendar() {
-        calendarGrid.innerHTML = '';
-        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    
-        // Preuzimanje rezervacija za označavanje dana
-        let reservationsByDay = {};
-        try {
-            const response = await fetch(API_URL);
-            const data = await response.json();
-            reservationsByDay = data.reservations.reduce((acc, res) => {
-                if (res.status === "Active") {
-                    const date = new Date(res.reservationDate).toISOString().split('T')[0];
-                    acc[date] = true; // Označavanje da postoji rezervacija
+   // Generisanje kalendarskih dana
+async function generateCalendar() {
+    calendarGrid.innerHTML = '';
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+    // Preuzimanje rezervacija za označavanje dana
+    let reservationsByDay = {};
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+
+        // Grupisanje rezervacija po datumu sa statusom "Active"
+        reservationsByDay = data.reservations.reduce((acc, res) => {
+            if (res.status === "Active") {
+                const date = new Date(res.reservationDate).toISOString().split('T')[0];
+                if (!acc[date]) {
+                    acc[date] = 0;
                 }
-                return acc;
-            }, {});
-        } catch (error) {
-            console.error("Greška prilikom preuzimanja rezervacija:", error);
-        }
-    
-        for (let i = 0; i < firstDay; i++) {
-            const emptyCell = document.createElement('div');
-            emptyCell.classList.add('empty-cell');
-            calendarGrid.appendChild(emptyCell);
-        }
-    
-        for (let day = 1; day <= daysInMonth; day++) {
-            const date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-            const dayButton = document.createElement('button');
-            dayButton.textContent = day;
-            dayButton.classList.add('calendar-day');
-    
-            // Provera za današnje datume
-            if (currentYear === today.getFullYear() && currentMonth === today.getMonth() && day === today.getDate()) {
-                dayButton.classList.add('today');
+                acc[date] += 1; // Brojanje rezervacija za određeni datum
             }
-    
-            // Provera za datume sa rezervacijama
-            if (reservationsByDay[date]) {
-                dayButton.classList.add('reserved-day');
-            }
-    
-            // Klik na dan
-            dayButton.addEventListener('click', () => {
-                // Očisti prethodni selektovani dan
-                document.querySelectorAll('.calendar-day').forEach(btn => btn.classList.remove('selected-day'));
-                dayButton.classList.add('selected-day'); // Dodaj klasu za selektovani dan
-                loadReservations(date);
-            });
-    
-            calendarGrid.appendChild(dayButton);
-        }
+            return acc;
+        }, {});
+    } catch (error) {
+        console.error("Greška prilikom preuzimanja rezervacija:", error);
     }
-    
+
+    // Dodavanje praznih ćelija za dane pre prvog dana meseca
+    for (let i = 0; i < firstDay; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.classList.add('empty-cell');
+        calendarGrid.appendChild(emptyCell);
+    }
+
+    // Kreiranje dana u mesecu
+    for (let day = 1; day <= daysInMonth; day++) {
+        const date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+        const dayButton = document.createElement('button');
+        dayButton.textContent = day;
+        dayButton.classList.add('calendar-day');
+
+        // Provera za današnji datum
+        if (currentYear === today.getFullYear() && currentMonth === today.getMonth() && day === today.getDate()) {
+            dayButton.classList.add('today');
+        }
+
+        // Provera za datume sa aktivnim rezervacijama
+        if (reservationsByDay[date]) {
+            dayButton.classList.add('reserved-day'); // Dodaj klasu za žutu boju
+        }
+
+        // Klik na dan
+        dayButton.addEventListener('click', () => {
+            // Očisti prethodni selektovani dan
+            document.querySelectorAll('.calendar-day').forEach(btn => btn.classList.remove('selected-day'));
+            dayButton.classList.add('selected-day'); // Dodaj klasu za selektovani dan
+            loadReservations(date);
+        });
+
+        calendarGrid.appendChild(dayButton);
+    }
+}
+
 
     // Učitavanje rezervacija
 async function loadReservations(date) {
