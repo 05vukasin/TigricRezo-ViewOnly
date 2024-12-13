@@ -37,25 +37,26 @@ async function generateCalendar() {
     let reservationsByDay = {};
     try {
         const response = await fetch(API_URL);
+        if (!response.ok) throw new Error("Greška prilikom preuzimanja podataka");
         const data = await response.json();
 
         // Grupisanje rezervacija po datumu sa statusom "Active"
-        reservationsByDay = data.reservations.reduce((acc, res) => {
+        data.reservations.forEach(res => {
             if (res.status === "Active") {
                 const date = new Date(res.reservationDate).toISOString().split('T')[0];
-                if (!acc[date]) {
-                    acc[date] = 0;
+                if (!reservationsByDay[date]) {
+                    reservationsByDay[date] = 1; // Inicijalizujemo broj rezervacija za taj datum
+                } else {
+                    reservationsByDay[date]++; // Povećavamo broj rezervacija za taj datum
                 }
-                acc[date] += 1; // Brojanje rezervacija za određeni datum
             }
-            return acc;
-        }, {});
+        });
     } catch (error) {
         console.error("Greška prilikom preuzimanja rezervacija:", error);
     }
 
     // Dodavanje praznih ćelija za dane pre prvog dana meseca
-    for (let i = 0; i < firstDay; i++) {
+    for (let i = 0; i < (firstDay === 0 ? 6 : firstDay - 1); i++) {
         const emptyCell = document.createElement('div');
         emptyCell.classList.add('empty-cell');
         calendarGrid.appendChild(emptyCell);
@@ -89,6 +90,7 @@ async function generateCalendar() {
         calendarGrid.appendChild(dayButton);
     }
 }
+
 
 
     // Učitavanje rezervacija

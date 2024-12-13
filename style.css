@@ -234,18 +234,24 @@ footer {
 }
 
 /* Posebne klase za kalendar */
-.calendar-day.reserved-day {
-    background: #ffc107;
-}
 
 .calendar-day.selected-day {
     background: #4CAF50;
     color: white;
 }
 
-.calendar-day.today {
-    border: 2px solid #4CAF50;
+.calendar-day.reserved-day {
+    background-color: #ffc107; /* Žuta boja za dane sa aktivnim rezervacijama */
+    color: #333;
+    border: 1px solid #e0a800;
 }
+
+.calendar-day.today {
+    background-color: #28a745; /* Zelena boja za današnji datum */
+    color: white;
+    border: 2px solid #218838;
+}
+
 
 /* Dani u nedelji */
 .calendar-weekdays {
