@@ -104,6 +104,8 @@ footer {
     background-color: #4CAF50;
     color: white;
     font-size: 0.9em;
+    min-height: 300px;
+    height: 100%;
 }
 
 .pending-reservation {
