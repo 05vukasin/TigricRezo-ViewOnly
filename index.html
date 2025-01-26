@@ -38,6 +38,20 @@
     <footer>
         <p>&copy; 2024 TigricRezo</p>
     </footer>
+
+    <!-- Popup za detalje rezervacije -->
+    <div id="reservationPopup" class="popup hidden">
+        <div class="popup-content">
+            <button id="closePopup" class="close">&times;</button>
+            <h2>Detalji Rezervacije</h2>
+            <p><strong>Klijent:</strong> <span id="popupClientName"></span></p>
+            <p><strong>Email:</strong> <span id="popupClientEmail"></span></p>
+            <p><strong>Vreme:</strong> <span id="popupReservationTime"></span></p>
+            <p><strong>Broj ljudi:</strong> <span id="popupNumberOfPeople"></span></p>
+            <p><strong>Komentar:</strong> <span id="popupComment"></span></p>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
